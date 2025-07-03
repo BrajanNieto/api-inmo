@@ -1,0 +1,220 @@
+org: brajanieto
+service: api-inmobiliaria
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: python3.13
+  region: us-east-1
+  memorySize: 1024
+  timeout: 20
+  stage: dev
+  environment:
+    CLIENTES_TABLE: clientes
+    PROYECTOS_TABLE: proyectos
+    AGENTES_TABLE: agentes
+    CONSULTAS_TABLE: consultas
+  iam:
+    role: arn:aws:iam::654654276465:role/LabRole   # usa el mismo rol que tu proyecto anterior
+
+package:
+  patterns:
+    - "!**/__pycache__/**"
+    - "!frontend/**"
+
+functions:
+  # ---------- CLIENTES ----------
+  crearCliente:
+    handler: clientes/crear.lambda_handler
+    events:
+      - http:
+          path: /clientes/crear
+          method: post
+          cors: true
+  listarClientes:
+    handler: clientes/listar.lambda_handler
+    events:
+      - http:
+          path: /clientes/listar
+          method: get
+          cors: true
+  buscarCliente:
+    handler: clientes/buscar.lambda_handler
+    events:
+      - http:
+          path: /clientes/buscar
+          method: post
+          cors: true
+  actualizarCliente:
+    handler: clientes/actualizar.lambda_handler
+    events:
+      - http:
+          path: /clientes/actualizar
+          method: put
+          cors: true
+  eliminarCliente:
+    handler: clientes/eliminar.lambda_handler
+    events:
+      - http:
+          path: /clientes/eliminar
+          method: delete
+          cors: true
+
+  # ---------- PROYECTOS ----------
+  crearProyecto:
+    handler: proyectos/crear.lambda_handler
+    events:
+      - http:
+          path: /proyectos/crear
+          method: post
+          cors: true
+  listarProyectos:
+    handler: proyectos/listar.lambda_handler
+    events:
+      - http:
+          path: /proyectos/listar
+          method: get
+          cors: true
+  buscarProyecto:
+    handler: proyectos/buscar.lambda_handler
+    events:
+      - http:
+          path: /proyectos/buscar
+          method: post
+          cors: true
+  actualizarProyecto:
+    handler: proyectos/actualizar.lambda_handler
+    events:
+      - http:
+          path: /proyectos/actualizar
+          method: put
+          cors: true
+  eliminarProyecto:
+    handler: proyectos/eliminar.lambda_handler
+    events:
+      - http:
+          path: /proyectos/eliminar
+          method: delete
+          cors: true
+
+  # ---------- AGENTES ----------
+  crearAgente:
+    handler: agentes/crear.lambda_handler
+    events:
+      - http:
+          path: /agentes/crear
+          method: post
+          cors: true
+  listarAgentes:
+    handler: agentes/listar.lambda_handler
+    events:
+      - http:
+          path: /agentes/listar
+          method: get
+          cors: true
+  buscarAgente:
+    handler: agentes/buscar.lambda_handler
+    events:
+      - http:
+          path: /agentes/buscar
+          method: post
+          cors: true
+  actualizarAgente:
+    handler: agentes/actualizar.lambda_handler
+    events:
+      - http:
+          path: /agentes/actualizar
+          method: put
+          cors: true
+  eliminarAgente:
+    handler: agentes/eliminar.lambda_handler
+    events:
+      - http:
+          path: /agentes/eliminar
+          method: delete
+          cors: true
+
+  # ---------- CONSULTAS / INTERACCIONES ----------
+  registrarConsulta:
+    handler: consultas/registrar.lambda_handler
+    events:
+      - http:
+          path: /consultas/registrar
+          method: post
+          cors: true
+  listarConsultasPorCliente:
+    handler: consultas/listar_por_cliente.lambda_handler
+    events:
+      - http:
+          path: /consultas/cliente
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    ClientesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: clientes
+        AttributeDefinitions:
+          - AttributeName: uuid
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S     # GSI para búsqueda rápida
+        KeySchema:
+          - AttributeName: uuid
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: email-index
+            KeySchema:
+              - AttributeName: email
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
+
+    ProyectosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: proyectos
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    AgentesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: agentes
+        AttributeDefinitions:
+          - AttributeName: uuid
+            AttributeType: S
+        KeySchema:
+          - AttributeName: uuid
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    ConsultasTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: consultas
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: cliente_uuid
+            AttributeType: S   # GSI para consultas por cliente
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: cliente-index
+            KeySchema:
+              - AttributeName: cliente_uuid
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
