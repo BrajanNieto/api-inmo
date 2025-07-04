@@ -1,36 +1,35 @@
-import json
-import boto3                               # ❶  Faltaba
-from boto3.dynamodb.conditions import Key  # ❷
-from shared.utils import dynamodb, parse_body
+# proyectos/buscar.py
+from botocore.exceptions import ClientError
+from shared.utils import dynamodb, parse_body, dumps
 
-TABLE = dynamodb.Table("clientes")
+TABLE = dynamodb.Table("proyectos")
 
 def lambda_handler(event, context):
+    # Parsear el body y validar entrada
     body = parse_body(event)
+    if "id" not in body:
+        return {
+            "statusCode": 400,
+            "body": dumps({"msg": "id es requerido"})
+        }
 
-    # Validación básica
-    if "email" not in body:
-        return {"statusCode": 400,
-                "body": json.dumps({"msg": "email es requerido"})}
-
-    email = body["email"].lower()
-
-    # ❸  Usa el índice secundario 'email-index'
+    proj_id = body["id"]
     try:
-        response = TABLE.query(
-            IndexName="email-index",
-            KeyConditionExpression=Key("email").eq(email)
-        )
-    except TABLE.meta.client.exceptions.ResourceNotFoundException:
-        # El índice no existe: usa scan como respaldo
-        response = TABLE.scan(
-            FilterExpression=Key("email").eq(email)
-        )
+        # Obtener el item por clave primaria
+        response = TABLE.get_item(Key={"id": proj_id})
+    except ClientError:
+        # Propagar otros errores de cliente
+        raise
 
-    items = response.get("Items", [])
-    if items:
-        return {"statusCode": 200,
-                "body": json.dumps(items[0])}
+    item = response.get("Item")
+    if item:
+        return {
+            "statusCode": 200,
+            "body": dumps(item)
+        }
 
-    return {"statusCode": 404,
-            "body": json.dumps({"msg": "Cliente no encontrado"})}
+    # Si no existe el proyecto
+    return {
+        "statusCode": 404,
+        "body": dumps({"msg": "Proyecto no encontrado"})
+    }
