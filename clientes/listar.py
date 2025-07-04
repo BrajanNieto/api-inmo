@@ -1,5 +1,4 @@
-import json
-from shared.utils import dynamodb
+from shared.utils import dynamodb, dumps
 
 TABLE = dynamodb.Table("clientes")
 
@@ -12,5 +11,7 @@ def lambda_handler(event, context):
         response = TABLE.scan(ExclusiveStartKey=response["LastEvaluatedKey"])
         items.extend(response.get("Items", []))
 
-    return {"statusCode": 200,
-            "body": json.dumps(items)}
+    return {
+        "statusCode": 200,
+        "body": dumps(items)
+    }
