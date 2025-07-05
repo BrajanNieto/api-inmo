@@ -146,19 +146,31 @@ functions:
           method: delete
           cors: true
 
-  # ---------- CONSULTAS / INTERACCIONES ----------
-  registrarConsulta:
-    handler: consultas/registrar.lambda_handler
-    events:
-      - http:
-          path: /consultas/registrar
-          method: post
-          cors: true
-  listarConsultasPorCliente:
-    handler: consultas/listar_por_cliente.lambda_handler
-    events:
-      - http:
-          path: /consultas/cliente
-          method: post
-          cors: true
+# ---------- CONSULTAS / INTERACCIONES ----------
+registrarConsulta:
+  handler: consultas/registrar.lambda_handler
+  events:
+    - http:
+        path: consultas/registrar       # sin barra inicial (opcional, pero más limpio)
+        method: post
+        cors:
+          origin: '*'                  # permite cualquier dominio
+          headers:
+            - Content-Type             # encabezado que envías en el POST
+          methods:
+            - OPTIONS                  # preflight
+            - POST                     # llamada real
 
+listarConsultasPorCliente:
+  handler: consultas/listar_por_cliente.lambda_handler
+  events:
+    - http:
+        path: consultas/cliente
+        method: post
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+          methods:
+            - OPTIONS
+            - POST
