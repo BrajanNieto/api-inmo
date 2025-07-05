@@ -24,14 +24,19 @@ package:
     - "!frontend/**"
 
 functions:
-  # ---------- CLIENTES ----------
   crearCliente:
     handler: clientes/crear.lambda_handler
     events:
       - http:
-          path: /clientes/crear
+          path: clientes/crear
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - POST
   listarClientes:
     handler: clientes/listar.lambda_handler
     events:
@@ -43,9 +48,15 @@ functions:
     handler: clientes/buscar.lambda_handler
     events:
       - http:
-          path: /clientes/buscar
+          path: clientes/buscar
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - POST
   actualizarCliente:
     handler: clientes/actualizar.lambda_handler
     events:
