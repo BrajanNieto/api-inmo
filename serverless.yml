@@ -1,22 +1,18 @@
 org: brajanieto
 service: api-inmo
 
-#frameworkVersion: "3"
-
 provider:
   name: aws
   runtime: python3.13
-#  region: us-east-1
   memorySize: 1024
   timeout: 20
-#  stage: dev
   environment:
     CLIENTES_TABLE: clientes
     PROYECTOS_TABLE: proyectos
     AGENTES_TABLE: agentes
     CONSULTAS_TABLE: consultas
   iam:
-    role: arn:aws:iam::654654276465:role/LabRole   # usa el mismo rol que tu proyecto anterior
+    role: arn:aws:iam::654654276465:role/LabRole
 
 package:
   patterns:
@@ -24,6 +20,7 @@ package:
     - "!frontend/**"
 
 functions:
+  # ---------- CLIENTES ----------
   crearCliente:
     handler: clientes/crear.lambda_handler
     events:
@@ -37,13 +34,21 @@ functions:
             methods:
               - OPTIONS
               - POST
+
   listarClientes:
     handler: clientes/listar.lambda_handler
     events:
       - http:
-          path: /clientes/listar
+          path: clientes/listar
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - GET
+
   buscarCliente:
     handler: clientes/buscar.lambda_handler
     events:
@@ -57,120 +62,202 @@ functions:
             methods:
               - OPTIONS
               - POST
+
   actualizarCliente:
     handler: clientes/actualizar.lambda_handler
     events:
       - http:
-          path: /clientes/actualizar
+          path: clientes/actualizar
           method: put
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - PUT
+
   eliminarCliente:
     handler: clientes/eliminar.lambda_handler
     events:
       - http:
-          path: /clientes/eliminar
+          path: clientes/eliminar
           method: delete
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - DELETE
 
   # ---------- PROYECTOS ----------
   crearProyecto:
     handler: proyectos/crear.lambda_handler
     events:
       - http:
-          path: /proyectos/crear
+          path: proyectos/crear
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - POST
+
   listarProyectos:
     handler: proyectos/listar.lambda_handler
     events:
       - http:
-          path: /proyectos/listar
+          path: proyectos/listar
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - GET
+
   buscarProyecto:
     handler: proyectos/buscar.lambda_handler
     events:
       - http:
-          path: /proyectos/buscar
+          path: proyectos/buscar
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - POST
+
   actualizarProyecto:
     handler: proyectos/actualizar.lambda_handler
     events:
       - http:
-          path: /proyectos/actualizar
+          path: proyectos/actualizar
           method: put
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - PUT
+
   eliminarProyecto:
     handler: proyectos/eliminar.lambda_handler
     events:
       - http:
-          path: /proyectos/eliminar
+          path: proyectos/eliminar
           method: delete
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - DELETE
 
   # ---------- AGENTES ----------
   crearAgente:
     handler: agentes/crear.lambda_handler
     events:
       - http:
-          path: /agentes/crear
+          path: agentes/crear
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - POST
+
   listarAgentes:
     handler: agentes/listar.lambda_handler
     events:
       - http:
-          path: /agentes/listar
+          path: agentes/listar
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - GET
+
   buscarAgente:
     handler: agentes/buscar.lambda_handler
     events:
       - http:
-          path: /agentes/buscar
+          path: agentes/buscar
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - POST
+
   actualizarAgente:
     handler: agentes/actualizar.lambda_handler
     events:
       - http:
-          path: /agentes/actualizar
+          path: agentes/actualizar
           method: put
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - PUT
+
   eliminarAgente:
     handler: agentes/eliminar.lambda_handler
     events:
       - http:
-          path: /agentes/eliminar
+          path: agentes/eliminar
           method: delete
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - DELETE
 
-# ---------- CONSULTAS / INTERACCIONES ----------
-registrarConsulta:
-  handler: consultas/registrar.lambda_handler
-  events:
-    - http:
-        path: consultas/registrar       # sin barra inicial (opcional, pero más limpio)
-        method: post
-        cors:
-          origin: '*'                  # permite cualquier dominio
-          headers:
-            - Content-Type             # encabezado que envías en el POST
-          methods:
-            - OPTIONS                  # preflight
-            - POST                     # llamada real
+  # ---------- CONSULTAS / INTERACCIONES ----------
+  registrarConsulta:
+    handler: consultas/registrar.lambda_handler
+    events:
+      - http:
+          path: consultas/registrar
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - POST
 
-listarConsultasPorCliente:
-  handler: consultas/listar_por_cliente.lambda_handler
-  events:
-    - http:
-        path: consultas/cliente
-        method: post
-        cors:
-          origin: '*'
-          headers:
-            - Content-Type
-          methods:
-            - OPTIONS
-            - POST
+  listarConsultasPorCliente:
+    handler: consultas/listar_por_cliente.lambda_handler
+    events:
+      - http:
+          path: consultas/cliente
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            methods:
+              - OPTIONS
+              - POST
