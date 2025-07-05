@@ -1,0 +1,470 @@
+{
+	"info": {
+		"_postman_id": "b1fcebf2-5a6a-46b8-9c24-ca3ff99296a2",
+		"name": "API Inmobiliaria – Colección completa",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45274699",
+		"_collection_link": "https://estebannieto.postman.co/workspace/API-Students~438ea4e4-1184-45ec-9abb-6385bf81c9f0/collection/45274699-b1fcebf2-5a6a-46b8-9c24-ca3ff99296a2?action=share&source=collection_link&creator=45274699"
+	},
+	"item": [
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "Crear cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fname\": \"Almendra\",\n  \"lname\": \"Oblitas\",\n  \"email\": \"aoblitas@example.com\",\n  \"phone\": \"+519898454554\",\n  \"project_id\": \"19\",\n  \"price_range\": \"100k-150k\",\n  \"bedrooms\": 3,\n  \"message\": \"Interesada en casa de 3 dormitorios\",\n  \"publicity_consent\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/clientes/crear",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/clientes/listar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar cliente por email",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\": \"aoblitas@example.com\" }"
+						},
+						"url": {
+							"raw": "{{base_url}}/clientes/buscar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes",
+								"buscar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar cliente (incrementa interacciones)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"uuid\": \"REEMPLAZA_UUID_CLIENTE\",\n  \"phone\": \"+51999999999\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/clientes/actualizar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes",
+								"actualizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"uuid\": \"REEMPLAZA_UUID_CLIENTE\" }"
+						},
+						"url": {
+							"raw": "{{base_url}}/clientes/eliminar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes",
+								"eliminar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Proyectos",
+			"item": [
+				{
+					"name": "Crear proyecto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"19\",\n  \"name\": \"Pradera del Rímac\",\n  \"code\": \"PRA\",\n  \"total_units\": 664,\n  \"total_available_units\": 66\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/proyectos/crear",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"proyectos",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar proyectos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/proyectos/listar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"proyectos",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar proyecto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"id\": \"19\" }"
+						},
+						"url": {
+							"raw": "{{base_url}}/proyectos/buscar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"proyectos",
+								"buscar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar proyecto",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"19\",\n  \"total_available_units\": 60\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/proyectos/actualizar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"proyectos",
+								"actualizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar proyecto",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"id\": \"19\" }"
+						},
+						"url": {
+							"raw": "{{base_url}}/proyectos/eliminar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"proyectos",
+								"eliminar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Agentes",
+			"item": [
+				{
+					"name": "Crear agente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 80795,\n  \"fname\": \"Almendra\",\n  \"lname\": \"Oblitas\",\n  \"phone\": \"+519898454554\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/agentes/crear",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"agentes",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar agentes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/agentes/listar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"agentes",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar agente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"uuid\": \"REEMPLAZA_UUID_AGENTE\" }"
+						},
+						"url": {
+							"raw": "{{base_url}}/agentes/buscar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"agentes",
+								"buscar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar agente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"uuid\": \"REEMPLAZA_UUID_AGENTE\",\n  \"active_clients\": 55\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/agentes/actualizar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"agentes",
+								"actualizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar agente",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"uuid\": \"REEMPLAZA_UUID_AGENTE\" }"
+						},
+						"url": {
+							"raw": "{{base_url}}/agentes/eliminar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"agentes",
+								"eliminar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Consultas",
+			"item": [
+				{
+					"name": "Registrar consulta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cliente_uuid\": \"REEMPLAZA_UUID_CLIENTE\",\n  \"proyecto_id\": \"19\",\n  \"price_range\": \"100k-150k\",\n  \"bedrooms\": 3,\n  \"message\": \"Más información del proyecto PRA\",\n  \"publicity_consent\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/consultas/registrar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"consultas",
+								"registrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar consultas de un cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"cliente_uuid\": \"REEMPLAZA_UUID_CLIENTE\" }"
+						},
+						"url": {
+							"raw": "{{base_url}}/consultas/cliente",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"consultas",
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://REEMPLAZA_CON_TU_URL.execute-api.us-east-1.amazonaws.com/dev",
+			"type": "string"
+		}
+	]
+}
